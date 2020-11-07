@@ -1,11 +1,6 @@
-from enum import Enum
 from typing import List, Optional
 
-
-class Color(str, Enum):
-    RED = 'R'
-    GREEN = 'G'
-    BLUE = 'B'
+from modules.color import Color
 
 
 class Move:
@@ -25,7 +20,7 @@ class Ball:
         return f'Ball({self})'
 
     def __str__(self) -> str:
-        return self.color
+        return str(self.color)
 
 
 class Flask:
@@ -44,7 +39,7 @@ class Flask:
 
     @property
     def has_same_color(self):
-        return all(self.balls[0].color == ball.color for ball in self.balls)
+        return all(self.balls[0].color is ball.color for ball in self.balls)
 
     @property
     def is_solved(self):
@@ -64,7 +59,7 @@ class Flask:
     def can_receive(self, ball: Ball) -> bool:
         if self.is_full:
             return False
-        if not self.upper_ball or self.upper_ball.color == ball.color:
+        if not self.upper_ball or self.upper_ball.color is ball.color:
             return True
         return False
 
@@ -141,21 +136,7 @@ class BallSortPuzzle:
                     ball = ' '  # type: ignore
                 result += f'|{ball}| '
             result += '\n'
-        for _ in range(self.flask_amount):
-            result += ' ‾   '
-        result += '\n'
         for flask in self.flasks:
             result += f' {flask.num}  '
         result += '\n'
         return result
-
-
-if __name__ == "__main__":
-    data_in = [
-        [Color.RED, Color.GREEN, Color.RED],
-        [Color.GREEN, Color.RED, Color.GREEN],
-        [],
-    ]
-    solver = BallSortPuzzle(data_in)  # type: ignore
-    print(solver)
-    solver.solve()
