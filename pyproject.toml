@@ -1,0 +1,21 @@
+[tool.poetry]
+name = "ball-sort-puzzle"
+version = "0.1.0"
+description = "Solver for mobile \"Ball sort puzzle\" game on Python."
+authors = ["Vyazovetskov Vladimir <vyazovetskov@mobiledimension.ru>"]
+
+[tool.poetry.dependencies]
+python = "^3.8"
+numpy = "^1.19.4"
+fastapi = "^0.61.2"
+pydantic = "^1.7.2"
+
+[tool.poetry.dev-dependencies]
+pre-commit = "^2.8.2"
+pytest = "^6.1.2"
+pytest-asyncio = "^0.14.0"
+pytest-cov = "^2.10.1"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
