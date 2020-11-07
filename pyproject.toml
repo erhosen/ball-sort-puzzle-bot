@@ -1,8 +1,8 @@
 [tool.poetry]
 name = "ball-sort-puzzle"
 version = "0.1.0"
-description = "Solver for mobile \"Ball sort puzzle\" game on Python."
-authors = ["Vyazovetskov Vladimir <vyazovetskov@mobiledimension.ru>"]
+description = "Solver for mobile game \"Ball sort puzzle\" on Python."
+authors = ["Vyazovetskov Vladimir <erhosen@gmail.com>"]
 
 [tool.poetry.dependencies]
 python = "^3.8"
