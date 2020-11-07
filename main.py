@@ -6,7 +6,6 @@ class Color(str, Enum):
     RED = 'R'
     GREEN = 'G'
     BLUE = 'B'
-    EMPTY = ' '
 
 
 class Move:
@@ -14,14 +13,13 @@ class Move:
         self.i = i
         self.j = j
 
+    def __str__(self) -> str:
+        return f'{self.i} -> {self.j}'
+
 
 class Ball:
     def __init__(self, color: Color):
         self.color = color
-
-    @property
-    def is_empty(self) -> bool:
-        return self.color == Color.EMPTY
 
     def __repr__(self):
         return f'Ball({self})'
@@ -31,17 +29,18 @@ class Ball:
 
 
 class Flask:
-    def __init__(self, num: int, column: List[Color]):
+    def __init__(self, column: List[Color], num: int, max_size: int):
         self.num = num
         self.balls = [Ball(color) for color in column]
+        self.max_size = max_size
 
     @property
     def is_full(self):
-        return all(not ball.is_empty for ball in self.balls)
+        return len(self.balls) == self.max_size
 
     @property
-    def is_empty(self):
-        return all(ball.is_empty for ball in self.balls)
+    def is_empty(self) -> bool:
+        return not self.balls
 
     @property
     def has_same_color(self):
@@ -57,31 +56,23 @@ class Flask:
         return False
 
     @property
-    def upper_ball(self):
-        for ball in self.balls:
-            if ball.is_empty:
-                continue
-            return ball
-        return ball
+    def upper_ball(self) -> Optional[Ball]:
+        if self.balls:
+            return self.balls[-1]
+        return None
 
     def can_receive(self, ball: Ball) -> bool:
         if self.is_full:
             return False
-        if self.upper_ball.is_empty or self.upper_ball.color == ball.color:
+        if not self.upper_ball or self.upper_ball.color == ball.color:
             return True
         return False
 
     def pop(self) -> Ball:
-        upper_ball = self.upper_ball
-        ball_idx = self.balls.index(upper_ball)
-        self.balls[ball_idx] = Ball(Color.EMPTY)
-        return upper_ball
+        return self.balls.pop(-1)
 
     def push(self, ball: Ball):
-        for i in range(len(self))[::-1]:
-            if self.balls[i].is_empty:
-                self.balls[i] = ball
-                break
+        self.balls.append(ball)
 
     def __iter__(self):
         return iter(self.balls)
@@ -98,19 +89,15 @@ class Flask:
 
 class BallSortPuzzle:
     def __init__(self, columns: List[List[Color]]):
-        self.flasks = [Flask(i, column) for i, column in enumerate(columns)]
-
-    @property
-    def flask_amount(self):
-        return len(self.flasks)
-
-    @property
-    def flask_size(self):
-        return len(self.flasks[0])
+        self.flask_amount = len(columns)
+        self.flask_size = len(columns[0])
+        self.flasks = [Flask(column, i, self.flask_size) for i, column in enumerate(columns)]
 
     def find_move(self) -> Optional[Move]:
         for i, flask in enumerate(self.flasks):
             upper_ball = flask.upper_ball
+            if not upper_ball:
+                continue
 
             for j, potential_flask in enumerate(self.flasks):
                 if i == j:
@@ -135,6 +122,7 @@ class BallSortPuzzle:
         if not move:
             return False
 
+        print(f'## {move} ##')
         self.commit_move(move)
         print(self)
 
@@ -145,9 +133,13 @@ class BallSortPuzzle:
 
     def __str__(self) -> str:
         result = '\n'
-        for ball_idx in range(self.flask_size):
+        for ball_idx in range(self.flask_size - 1, -1, -1):
             for flask in self.flasks:
-                result += f'|{flask[ball_idx]}| '
+                try:
+                    ball = flask[ball_idx]
+                except IndexError:
+                    ball = ' '  # type: ignore
+                result += f'|{ball}| '
             result += '\n'
         for _ in range(self.flask_amount):
             result += ' ‾   '
@@ -162,8 +154,8 @@ if __name__ == "__main__":
     data_in = [
         [Color.RED, Color.GREEN, Color.RED],
         [Color.GREEN, Color.RED, Color.GREEN],
-        [Color.EMPTY, Color.EMPTY, Color.EMPTY],
+        [],
     ]
-    solver = BallSortPuzzle(data_in)
+    solver = BallSortPuzzle(data_in)  # type: ignore
     print(solver)
     solver.solve()
