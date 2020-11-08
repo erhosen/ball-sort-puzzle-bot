@@ -1,4 +1,3 @@
-import random
 from typing import List, Set
 
 from color import Color
@@ -16,19 +15,19 @@ class BallSortPuzzle:
     def get_possible_moves(self) -> List[Move]:
         moves = []
         for flask in self.flasks:
-            upper_ball = flask.upper_ball
-            if not upper_ball:
-                continue
-
             if flask.is_solved:
                 continue
 
+            if flask.same_three_balls:
+                continue
+
+            upper_ball = flask.upper_ball
             for potential_flask in self.flasks:
                 if flask is potential_flask:
                     continue
                 if potential_flask.can_receive(upper_ball):
                     moves.append(Move(flask.num, potential_flask.num))
-        random.shuffle(moves)
+
         return moves
 
     def commit_move(self, move: Move):

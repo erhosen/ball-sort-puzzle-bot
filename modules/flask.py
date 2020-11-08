@@ -1,4 +1,4 @@
-from typing import List, Optional
+from typing import List
 
 from color import Color
 from modules import Ball
@@ -19,19 +19,27 @@ class Flask:
         return not self.balls
 
     @property
+    def has_one_color(self) -> bool:
+        return all(self.balls[0] == ball for ball in self.balls)
+
+    @property
     def is_solved(self):
         if self.is_empty:
             return True
-        if self.is_full and all(self.balls[0] == ball for ball in self.balls):
+        if self.is_full and self.has_one_color:
             return True
 
         return False
 
     @property
-    def upper_ball(self) -> Optional[Ball]:
-        if self.balls:
-            return self.balls[-1]
-        return None
+    def same_three_balls(self):
+        if len(self) == self.max_size - 1 and self.has_one_color:
+            return True
+
+    @property
+    def upper_ball(self) -> Ball:
+        assert self.balls, "Calling `upper_ball` for an empty flask!"
+        return self.balls[-1]
 
     def can_receive(self, ball: Ball) -> bool:
         if self.is_full:
