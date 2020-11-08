@@ -41,7 +41,10 @@ class BallSortPuzzle:
         self.moves.pop()
 
     def has_cycle(self, move) -> bool:
-        return self.state in self.states
+        self.commit_move(move)
+        has_cycle = self.state in self.states
+        self.rollback_move(move)
+        return has_cycle
 
     @property
     def is_solved(self):
@@ -52,11 +55,10 @@ class BallSortPuzzle:
             return True
 
         for move in self.get_possible_moves():
-            self.commit_move(move)
             if self.has_cycle(move):
-                self.rollback_move(move)
                 continue
 
+            self.commit_move(move)
             self.states.add(self.state)
             if self.solve():
                 return True
