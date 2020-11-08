@@ -1,85 +1,8 @@
-from typing import List, Optional
+import random
+from typing import List, Set
 
-from modules.color import Color
-
-
-class Move:
-    def __init__(self, i, j):
-        self.i = i
-        self.j = j
-
-    def __str__(self) -> str:
-        return f'{self.i} -> {self.j}'
-
-
-class Ball:
-    def __init__(self, color: Color):
-        self.color = color
-
-    def __repr__(self):
-        return f'Ball({self})'
-
-    def __str__(self) -> str:
-        return str(self.color)
-
-
-class Flask:
-    def __init__(self, column: List[Color], num: int, max_size: int):
-        self.num = num
-        self.balls = [Ball(color) for color in column]
-        self.max_size = max_size
-
-    @property
-    def is_full(self):
-        return len(self.balls) == self.max_size
-
-    @property
-    def is_empty(self) -> bool:
-        return not self.balls
-
-    @property
-    def has_same_color(self):
-        return all(self.balls[0].color is ball.color for ball in self.balls)
-
-    @property
-    def is_solved(self):
-        if self.is_empty:
-            return True
-        if self.is_full and self.has_same_color:
-            return True
-
-        return False
-
-    @property
-    def upper_ball(self) -> Optional[Ball]:
-        if self.balls:
-            return self.balls[-1]
-        return None
-
-    def can_receive(self, ball: Ball) -> bool:
-        if self.is_full:
-            return False
-        if not self.upper_ball or self.upper_ball.color is ball.color:
-            return True
-        return False
-
-    def pop(self) -> Ball:
-        return self.balls.pop(-1)
-
-    def push(self, ball: Ball):
-        self.balls.append(ball)
-
-    def __iter__(self):
-        return iter(self.balls)
-
-    def __getitem__(self, item: int) -> Ball:
-        return self.balls[item]
-
-    def __len__(self) -> int:
-        return len(self.balls)
-
-    def __str__(self) -> str:
-        return str(self.balls)
+from color import Color
+from modules import Flask, Move
 
 
 class BallSortPuzzle:
@@ -87,23 +10,39 @@ class BallSortPuzzle:
         self.flask_amount = len(columns)
         self.flask_size = len(columns[0])
         self.flasks = [Flask(column, i, self.flask_size) for i, column in enumerate(columns)]
+        self.moves: List[Move] = []
+        self.states: Set[str] = set()
 
-    def find_move(self) -> Optional[Move]:
-        for i, flask in enumerate(self.flasks):
+    def get_possible_moves(self) -> List[Move]:
+        moves = []
+        for flask in self.flasks:
             upper_ball = flask.upper_ball
             if not upper_ball:
                 continue
 
-            for j, potential_flask in enumerate(self.flasks):
-                if i == j:
+            if flask.is_solved:
+                continue
+
+            for potential_flask in self.flasks:
+                if flask is potential_flask:
                     continue
                 if potential_flask.can_receive(upper_ball):
-                    return Move(i, j)
-        return None
+                    moves.append(Move(flask.num, potential_flask.num))
+        random.shuffle(moves)
+        return moves
 
     def commit_move(self, move: Move):
         ball = self.flasks[move.i].pop()
         self.flasks[move.j].push(ball)
+        self.moves.append(move)
+
+    def rollback_move(self, move: Move):
+        ball = self.flasks[move.j].pop()
+        self.flasks[move.i].push(ball)
+        self.moves.pop()
+
+    def has_cycle(self, move) -> bool:
+        return self.state in self.states
 
     @property
     def is_solved(self):
@@ -113,18 +52,28 @@ class BallSortPuzzle:
         if self.is_solved:
             return True
 
-        move = self.find_move()
-        if not move:
-            return False
+        for move in self.get_possible_moves():
+            self.commit_move(move)
+            if self.has_cycle(move):
+                self.rollback_move(move)
+                continue
 
-        print(f'## {move} ##')
-        self.commit_move(move)
-        print(self)
-
-        if self.solve():
-            return True
+            self.states.add(self.state)
+            if self.solve():
+                return True
+            self.rollback_move(move)
 
         return False
+
+    def play_moves(self, moves: List[Move]):
+        for move in moves:
+            print(self)
+            print(f'## {move} ##')
+            self.commit_move(move)
+
+    @property
+    def state(self) -> str:
+        return '|'.join(flask.state for flask in self.flasks)
 
     def __str__(self) -> str:
         result = '\n'
