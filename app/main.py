@@ -1,14 +1,17 @@
 import asyncio
+import json
 from typing import Optional
 
 
 async def _handler(event: Optional[dict], context: Optional[dict]):
-    body = event and event['body']
+    body = event['body']  # type: ignore
+
+    msg = {'method': 'sendMessage', 'chat_id': body['message']['chat']['id'], 'text': body['message']['text']}
 
     return {
         'statusCode': 200,
         'headers': {'Content-Type': 'application/json'},
-        'body': body,
+        'body': json.dumps(msg),
         'isBase64Encoded': False,
     }
 

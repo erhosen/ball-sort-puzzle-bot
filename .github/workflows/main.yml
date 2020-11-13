@@ -48,8 +48,8 @@ jobs:
           memory: '128'
           execution_timeout: "120"
           entrypoint: 'main.handler'
-          environment: "\
-            TELEGRAM_BOT_TOKEN=${{ secrets.TELEGRAM_BOT_TOKEN }},\
-            TELEGRAM_API_HASH=${{ secrets.TELEGRAM_API_HASH }},\
-            TELEGRAM_API_ID=${{ secrets.TELEGRAM_API_ID }}"
+#          environment: "\
+#            TELEGRAM_BOT_TOKEN=${{ secrets.TELEGRAM_BOT_TOKEN }},\
+#            TELEGRAM_API_HASH=${{ secrets.TELEGRAM_API_HASH }},\
+#            TELEGRAM_API_ID=${{ secrets.TELEGRAM_API_ID }}"
           source: 'app'

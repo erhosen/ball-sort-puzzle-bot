@@ -7,7 +7,6 @@ authors = ["Vyazovetskov Vladimir <erhosen@gmail.com>"]
 [tool.poetry.dependencies]
 python = "^3.7"
 numpy = "^1.19.4"
-pydantic = "^1.7.2"
 opencv-python = "^4.4.0"
 
 [tool.poetry.dev-dependencies]
