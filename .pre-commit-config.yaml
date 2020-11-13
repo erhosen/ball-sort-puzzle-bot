@@ -28,3 +28,12 @@ repos:
     rev: v0.782
     hooks:
       - id: mypy
+
+  - repo: local
+    hooks:
+      - id: requirements
+        name: Check that requirements.txt us up to date with poetry.
+        entry: "make check_requirements"
+        language: system
+        verbose: true
+        pass_filenames: false
