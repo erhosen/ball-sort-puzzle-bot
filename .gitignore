@@ -3,4 +3,5 @@ __pycache__/
 .pytest_cache/
 .mypy_cache
 __test_results__
+.DS_Store
 .coverage
