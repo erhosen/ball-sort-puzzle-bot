@@ -9,6 +9,7 @@ python = "^3.8"
 numpy = "^1.19.4"
 fastapi = "^0.61.2"
 pydantic = "^1.7.2"
+opencv-python = "^4.4.0"
 
 [tool.poetry.dev-dependencies]
 pre-commit = "^2.8.2"
