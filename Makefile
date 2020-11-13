@@ -11,7 +11,10 @@ test:
 	@python -m pytest --cov=app/ app/tests/ -vvv
 
 generate_requirements:
-	@poetry export --without-hashes -f requirements.txt > requirements.txt
+	@poetry export --without-hashes -f requirements.txt > app/requirements.txt
+
+check_requirements: generate_requirements
+	@git diff --quiet app/requirements.txt
 
 deploy: clean generate_requirements
 	@yc serverless function version create --function-name=ball-sort-puzzle-bot --runtime python37-preview --entrypoint main.handler --memory 128m --execution-timeout 120s --source-path ./app
