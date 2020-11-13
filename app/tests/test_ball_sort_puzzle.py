@@ -1,5 +1,5 @@
-import color
-from main import BallSortPuzzle
+from modules import color
+from solver import BallSortPuzzle
 
 
 def test_3x3():

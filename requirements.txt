@@ -1,0 +1,5 @@
+fastapi==0.61.2; python_version >= "3.6"
+numpy==1.19.4; python_version >= "3.6"
+opencv-python==4.4.0.46; python_version >= "3.6"
+pydantic==1.7.2; python_version >= "3.6"
+starlette==0.13.6; python_version >= "3.6"

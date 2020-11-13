@@ -1,13 +1,15 @@
-import color
+from pathlib import Path
+
 from image import img_to_colors
-from main import BallSortPuzzle
+from modules import color
+from solver import BallSortPuzzle
+
+FILE_PATH = Path(__file__)
 
 
 def test_image():
-    result = img_to_colors(
-        "/Users/vviazovetskov/PycharmProjects/ball-sort-puzzle/img/IMG_B66152AF3E01-1.jpeg"
-    )
-    assert result == [
+    colors = img_to_colors(str(FILE_PATH.parent / "img/IMG_B66152AF3E01-1.jpeg"))
+    assert colors == [
         [color.L_BLUE, color.L_BLUE, color.GREEN, color.L_GREEN],
         [color.PINK, color.PINK, color.BLUE, color.BROWN],
         [color.LIME, color.L_GREEN, color.VIOLET, color.VIOLET],
@@ -26,10 +28,8 @@ def test_image():
 
 
 def test_image_and_solve():
-    data_in = img_to_colors(
-        "/Users/vviazovetskov/PycharmProjects/ball-sort-puzzle/img/IMG_B66152AF3E01-1.jpeg"
-    )
-    puzzle = BallSortPuzzle(data_in)  # type: ignore
+    colors = img_to_colors(str(FILE_PATH.parent / "img/IMG_B66152AF3E01-1.jpeg"))
+    puzzle = BallSortPuzzle(colors)  # type: ignore
     result = puzzle.solve()
     assert result is True
     assert (
@@ -48,5 +48,5 @@ def test_image_and_solve():
         "Ball(7 -> 8), Ball(6 -> 7), Ball(6 -> 7), Ball(8 -> 6), Ball(8 -> 6), Ball(8 -> 6), Ball(8 -> "
         "5), Ball(7 -> 8), Ball(7 -> 8), Ball(9 -> 7), Ball(7 -> 8), Ball(9 -> 7), Ball(7 -> 8), "
         "Ball(9 -> 7), Ball(9 -> 0), Ball(7 -> 9), Ball(11 -> 7), Ball(7 -> 9), Ball(11 -> 7), "
-        "Ball(7 -> 9), Ball(11 -> 7), Ball(7 -> 9), Ball(11 -> 6)] "
+        "Ball(7 -> 9), Ball(11 -> 7), Ball(7 -> 9), Ball(11 -> 6)]"
     )

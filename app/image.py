@@ -3,8 +3,7 @@ from typing import List
 
 import cv2
 import numpy as np
-
-from color import RBG_TO_COLOR, Color
+from modules.color import RBG_TO_COLOR, Color
 
 
 def normalize(circles):
@@ -19,6 +18,7 @@ def normalize(circles):
 
 
 def img_to_colors(image_name: str):
+    print(image_name)
     image = cv2.imread(image_name)
     output = image.copy()
     gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)

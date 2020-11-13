@@ -1,7 +1,7 @@
 from typing import List, Set
 
-from color import Color
 from modules import Flask, Move
+from modules.color import Color
 
 
 class BallSortPuzzle:

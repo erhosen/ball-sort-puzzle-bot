@@ -1,7 +1,7 @@
 from typing import List
 
-from color import Color
 from modules import Ball
+from modules.color import Color
 
 
 class Flask:

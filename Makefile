@@ -8,4 +8,13 @@ format:
 	@pre-commit run --all-files
 
 test:
-	@python -m pytest --cov=. tests/ -vvv
+	@python -m pytest --cov=app/ app/tests/ -vvv
+
+generate_requirements:
+	@poetry export --without-hashes -f requirements.txt > requirements.txt
+
+deploy: clean generate_requirements
+	@yc serverless function version create --function-name=ball-sort-puzzle-bot --runtime python37-preview --entrypoint main.handler --memory 128m --execution-timeout 120s --source-path ./app
+
+run:
+	@yc serverless function invoke tiktok-lambda

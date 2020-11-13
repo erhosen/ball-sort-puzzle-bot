@@ -1,4 +1,4 @@
-from color import Color
+from modules.color import Color
 
 
 class Ball:
