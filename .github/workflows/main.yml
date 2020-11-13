@@ -48,4 +48,6 @@ jobs:
           memory: '128'
           execution_timeout: "120"
           entrypoint: 'main.handler'
+          environment: DEBUG=True
           source: 'app'
+          exclude: 'app/tests'
