@@ -1,0 +1,55 @@
+name: Build
+on: push
+
+jobs:
+  lint:
+    name: lint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - name: Set up Python 3.7
+        uses: actions/setup-python@v1
+        with:
+          python-version: 3.7
+      - name: Linting
+        run: |
+          pip install poetry pre-commit
+          pre-commit run --all-files
+  pytest:
+    name: test
+    needs: lint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@master
+      - name: Set up Python 3.7
+        uses: actions/setup-python@v1
+        with:
+          python-version: 3.7
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install poetry
+          poetry install
+      - name: Run pytest
+        run: |
+          poetry run pytest --cov=app/ app/tests/
+  deploy:
+    name: deploy
+    needs: lint
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/master'
+    steps:
+      - uses: actions/checkout@master
+      - uses: goodsmileduck/yandex-serverless-action@v1
+        with:
+          token: ${{ secrets.YC_TOKEN }}
+          function_id: ${{ secrets.YC_FUNCTION_ID }}
+          runtime: 'python37-preview'
+          memory: '128'
+          execution_timeout: "120"
+          entrypoint: 'main.handler'
+          environment: "\
+            TELEGRAM_BOT_TOKEN=${{ secrets.TELEGRAM_BOT_TOKEN }},\
+            TELEGRAM_API_HASH=${{ secrets.TELEGRAM_API_HASH }},\
+            TELEGRAM_API_ID=${{ secrets.TELEGRAM_API_ID }}"
+          source: 'app'

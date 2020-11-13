@@ -17,4 +17,4 @@ deploy: clean generate_requirements
 	@yc serverless function version create --function-name=ball-sort-puzzle-bot --runtime python37-preview --entrypoint main.handler --memory 128m --execution-timeout 120s --source-path ./app
 
 run:
-	@yc serverless function invoke tiktok-lambda
+	@yc serverless function invoke ball-sort-puzzle-bot
