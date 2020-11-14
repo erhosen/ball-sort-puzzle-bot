@@ -77,7 +77,7 @@ class BallSortPuzzle:
         return '|'.join(flask.state for flask in self.flasks)
 
     def get_telegram_repr(self) -> str:
-        return " -> ".join(move.emoji for move in self.moves)
+        return "\n *".join(move.get_telegram_repr() for move in self.moves)
 
     def __str__(self) -> str:
         result = '\n'

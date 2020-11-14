@@ -7,6 +7,9 @@ class Move:
         self.j = j
         self.emoji = COLOR_TO_EMOJI[i_color]
 
+    def get_telegram_repr(self) -> str:
+        return f"{self.emoji} -> {self.j}"
+
     def __repr__(self):
         return f'Ball({self})'
 
