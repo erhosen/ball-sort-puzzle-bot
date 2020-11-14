@@ -5,14 +5,13 @@ description = "Solver for mobile game \"Ball sort puzzle\" on Python."
 authors = ["Vyazovetskov Vladimir <erhosen@gmail.com>"]
 
 [tool.poetry.dependencies]
-python = "^3.7"
+python = "^3.8"
 numpy = "^1.19.4"
-opencv-python = "^4.4.0"
+opencv-python-headless = "^4.4.0"
 
 [tool.poetry.dev-dependencies]
 pre-commit = "^2.8.2"
 pytest = "^6.1.2"
-pytest-asyncio = "^0.14.0"
 pytest-cov = "^2.10.1"
 
 [build-system]
