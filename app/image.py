@@ -17,12 +17,11 @@ def normalize(circles):
     return circles
 
 
-def img_to_colors(image_name: str):
-    print(image_name)
-    image = cv2.imread(image_name)
+def img_to_colors(file_bytes):
+    image = cv2.imdecode(file_bytes, cv2.IMREAD_COLOR)
     output = image.copy()
     gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
-    circles = cv2.HoughCircles(gray, cv2.HOUGH_GRADIENT, 1.2, 20, maxRadius=100)
+    circles = cv2.HoughCircles(gray, cv2.HOUGH_GRADIENT, 1.8, 20, maxRadius=40)
 
     ordered_colors = []
     if circles is not None:
@@ -33,9 +32,16 @@ def img_to_colors(image_name: str):
         ind = np.lexsort((circles[:, 0], circles[:, 1]))
         circles = circles[ind]
         for i, (x, y, r) in enumerate(circles):
+            # cv2.circle(output, (x, y), r, (0, 255, 0), 4)
+            # cv2.putText(output, str(i), (x - 5, y - 5), 1, fontScale=1, color=(0, 128, 255))
+            # cv2.rectangle(output, (x - 5, y - 5), (x + 5, y + 5), (0, 128, 255), -1)
+
             rbg = output[y][x]
             color = RBG_TO_COLOR[tuple(rbg)]  # type: ignore
             ordered_colors.append(color)
+
+    # cv2.imshow("output", output)
+    # cv2.waitKey(0)
 
     if not ordered_colors:
         raise ValueError("Can't parse :shrug:")
