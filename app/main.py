@@ -3,7 +3,7 @@ from typing import Optional
 
 import numpy as np
 from client import TelegramClientError, telegram_client
-from image import img_to_colors
+from image import ImageParsingError, img_to_colors
 from solver import BallSortPuzzle
 
 
@@ -22,10 +22,14 @@ def handler(event: Optional[dict], context: Optional[dict]):
             text = "Cant download the image from TG :("
         else:
             file_bytes = np.asarray(bytearray(file.read()), dtype=np.uint8)
-            colors = img_to_colors(file_bytes)
-            puzzle = BallSortPuzzle(colors)  # type: ignore
-            puzzle.solve()
-            text = str(puzzle.moves)
+            try:
+                colors = img_to_colors(file_bytes)
+            except ImageParsingError as exp:
+                text = f"Cant parse image: {exp}"
+            else:
+                puzzle = BallSortPuzzle(colors)  # type: ignore
+                puzzle.solve()
+                text = str(puzzle.moves)
     else:
         text = "file not found"
 

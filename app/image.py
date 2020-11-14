@@ -6,6 +6,10 @@ import numpy as np
 from modules.color import RBG_TO_COLOR, Color
 
 
+class ImageParsingError(Exception):
+    pass
+
+
 def normalize(circles):
     last_y = 0
     for circle in circles:
@@ -44,7 +48,7 @@ def img_to_colors(file_bytes):
     # cv2.waitKey(0)
 
     if not ordered_colors:
-        raise ValueError("Can't parse :shrug:")
+        raise ImageParsingError("No circles :shrug:")
 
     if len(ordered_colors) == 48:
         flasks1: List[List[Color]] = [[] for _ in range(7)]
@@ -59,6 +63,6 @@ def img_to_colors(file_bytes):
 
         return flasks1 + flasks2 + [[], []]
     elif len(ordered_colors) == 36:
-        raise NotImplementedError()
+        raise ImageParsingError("NotImplementedError")
     else:
-        raise NotImplementedError()
+        raise ImageParsingError("NotImplementedError")
