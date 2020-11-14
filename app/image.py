@@ -41,6 +41,7 @@ def img_to_colors(file_bytes):
             # cv2.rectangle(output, (x - 5, y - 5), (x + 5, y + 5), (0, 128, 255), -1)
 
             rbg = output[y][x]
+            # print(i, rbg)
             color = RBG_TO_COLOR[tuple(rbg)]  # type: ignore
             ordered_colors.append(color)
 

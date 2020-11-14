@@ -33,7 +33,7 @@ def handler(event: Optional[dict], context: Optional[dict]):
     else:
         text = "file not found"
 
-    msg = {'method': 'sendMessage', 'chat_id': chat_id, 'text': text}
+    msg = {'method': 'sendMessage', 'chat_id': chat_id, 'text': text, 'parse_mode': 'markdown'}
 
     return {
         'statusCode': 200,
