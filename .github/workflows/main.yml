@@ -48,5 +48,6 @@ jobs:
           memory: '128'
           execution_timeout: "120"
           entrypoint: 'main.handler'
-          environment: DEBUG=True
+          environment: "\
+            TELEGRAM_BOT_TOKEN=${{ secrets.TELEGRAM_BOT_TOKEN }}"
           source: 'app'
