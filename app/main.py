@@ -1,12 +1,35 @@
 import json
 from typing import Optional
 
+import numpy as np
+from client import TelegramClientError, telegram_client
+from image import img_to_colors
+from solver import BallSortPuzzle
+
 
 def handler(event: Optional[dict], context: Optional[dict]):
-    body = event['body']  # type: ignore
-    body = json.loads(body)
+    body = json.loads(event['body'])  # type: ignore
+    print(body)
+    message = body['message']
+    chat_id = message['chat']['id']
 
-    msg = {'method': 'sendMessage', 'chat_id': body['message']['chat']['id'], 'text': body['message']['text']}
+    if photos := message.get('photo'):
+        # here photos is an array with same photo of different sizes
+        hd_photo = max(photos, key=lambda x: x['file_size'])  # get one with the highest resolution
+        try:
+            file = telegram_client.download_file(hd_photo['file_id'])
+        except TelegramClientError:
+            text = "Cant download the image from TG :("
+        else:
+            file_bytes = np.asarray(bytearray(file.read()), dtype=np.uint8)
+            colors = img_to_colors(file_bytes)
+            puzzle = BallSortPuzzle(colors)  # type: ignore
+            puzzle.solve()
+            text = str(puzzle.moves)
+    else:
+        text = "file not found"
+
+    msg = {'method': 'sendMessage', 'chat_id': chat_id, 'text': text}
 
     return {
         'statusCode': 200,

@@ -1,5 +1,6 @@
 from pathlib import Path
 
+import numpy as np
 from image import img_to_colors
 from modules import color
 from solver import BallSortPuzzle
@@ -8,7 +9,11 @@ FILE_PATH = Path(__file__)
 
 
 def test_image():
-    colors = img_to_colors(str(FILE_PATH.parent / "img/IMG_B66152AF3E01-1.jpeg"))
+    file_path = FILE_PATH.parent / "img/IMG_B66152AF3E01-1.jpg"
+    with open(file_path, 'rb') as f:
+        file_bytes = np.asarray(bytearray(f.read()), dtype=np.uint8)
+        colors = img_to_colors(file_bytes)
+
     assert colors == [
         [color.L_BLUE, color.L_BLUE, color.GREEN, color.L_GREEN],
         [color.PINK, color.PINK, color.BLUE, color.BROWN],
@@ -28,7 +33,11 @@ def test_image():
 
 
 def test_image_and_solve():
-    colors = img_to_colors(str(FILE_PATH.parent / "img/IMG_B66152AF3E01-1.jpeg"))
+    file_path = FILE_PATH.parent / "img/IMG_B66152AF3E01-1.jpg"
+    with open(file_path, 'rb') as f:
+        file_bytes = np.asarray(bytearray(f.read()), dtype=np.uint8)
+        colors = img_to_colors(file_bytes)
+
     puzzle = BallSortPuzzle(colors)  # type: ignore
     result = puzzle.solve()
     assert result is True
