@@ -50,4 +50,4 @@ jobs:
           entrypoint: 'main.handler'
           environment: DEBUG=True
           source: 'app'
-          exclude: 'tests/'
+          exclude: 'app/tests/'
