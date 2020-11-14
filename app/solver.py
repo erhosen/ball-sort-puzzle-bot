@@ -26,7 +26,7 @@ class BallSortPuzzle:
                 if flask is potential_flask:
                     continue
                 if potential_flask.can_receive(upper_ball):
-                    moves.append(Move(flask.num, potential_flask.num))
+                    moves.append(Move(flask.num, potential_flask.num, upper_ball.color))
 
         return moves
 
@@ -75,6 +75,9 @@ class BallSortPuzzle:
     @property
     def state(self) -> str:
         return '|'.join(flask.state for flask in self.flasks)
+
+    def get_telegram_repr(self) -> str:
+        return " -> ".join(move.emoji for move in self.moves)
 
     def __str__(self) -> str:
         result = '\n'
