@@ -29,7 +29,7 @@ def handler(event: Optional[dict], context: Optional[dict]):
             else:
                 puzzle = BallSortPuzzle(colors)  # type: ignore
                 puzzle.solve()
-                text = str(puzzle.moves)
+                text = f' ```{puzzle.moves}``` '
     else:
         text = "file not found"
 

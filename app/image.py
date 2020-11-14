@@ -25,7 +25,7 @@ def img_to_colors(file_bytes):
     image = cv2.imdecode(file_bytes, cv2.IMREAD_COLOR)
     output = image.copy()
     gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
-    circles = cv2.HoughCircles(gray, cv2.HOUGH_GRADIENT, 1.8, 20, maxRadius=40)
+    circles = cv2.HoughCircles(gray, cv2.HOUGH_GRADIENT, 2, 20, maxRadius=40)
 
     ordered_colors = []
     if circles is not None:

@@ -8,7 +8,7 @@ from solver import BallSortPuzzle
 FILE_PATH = Path(__file__)
 
 
-def test_image():
+def test_image1():
     file_path = FILE_PATH.parent / "img/IMG_B66152AF3E01-1.jpg"
     with open(file_path, 'rb') as f:
         file_bytes = np.asarray(bytearray(f.read()), dtype=np.uint8)
@@ -30,6 +30,15 @@ def test_image():
         [],
         [],
     ]
+
+
+def test_image2():
+    file_path = FILE_PATH.parent / "img/file_3.jpg"
+    with open(file_path, 'rb') as f:
+        file_bytes = np.asarray(bytearray(f.read()), dtype=np.uint8)
+        colors = img_to_colors(file_bytes)
+
+    assert colors
 
 
 def test_image_and_solve():
