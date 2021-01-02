@@ -1,11 +1,11 @@
-from modules.color import COLOR_TO_EMOJI, Color
+from modules.color import Color
 
 
 class Move:
     def __init__(self, i, j, i_color: Color):
         self.i = i
         self.j = j
-        self.emoji = COLOR_TO_EMOJI[i_color]
+        self.emoji = i_color.emoji
 
     def get_telegram_repr(self) -> str:
         return f"{self.emoji} -> {self.j}"
