@@ -59,7 +59,8 @@ class Flask:
         state = ''
         for i in range(self.max_size):
             try:
-                state += str(self.balls[i])
+                ball: Ball = self.balls[i]
+                state += ball.color.symbol
             except IndexError:
                 state += '#'
         return state

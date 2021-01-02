@@ -9,7 +9,7 @@ class Ball:
         return self.color is other.color
 
     def __repr__(self):
-        return f'Ball({self})'
+        return f'Ball({self.color.verbose_name})'
 
     def __str__(self) -> str:
         return str(self.color)

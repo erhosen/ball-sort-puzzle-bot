@@ -8,7 +8,7 @@ format:
 	@pre-commit run --all-files
 
 test:
-	@python -m pytest --cov=app/ app/tests/ -vvv
+	@python -m pytest --cov=app/ app/tests/ --durations=1 -vvv
 
 generate_requirements:
 	@poetry export --without-hashes -f requirements.txt > app/requirements.txt

@@ -8,7 +8,7 @@ class Color:
         return f'Color({self})'
 
     def __str__(self) -> str:
-        return self.symbol
+        return self.emoji
 
 
 RED = Color('R', 'Red', '🔴')
@@ -39,4 +39,16 @@ RBG_TO_COLOR = {
     (123, 103, 216): PINK,
     (48, 149, 127): LIME,
     (45, 57, 181): RED,
+    # compressed
+    (147, 42, 115): VIOLET,
+    (8, 74, 125): BROWN,
+    (229, 163, 85): L_BLUE,
+    (68, 140, 234): ORANGE,
+    (196, 46, 59): BLUE,
+    (51, 100, 18): GREEN,
+    (35, 43, 197): RED,
+    (87, 216, 241): YELLOW,
+    (125, 214, 97): L_GREEN,
+    (123, 94, 234): PINK,
+    (16, 150, 120): LIME,
 }

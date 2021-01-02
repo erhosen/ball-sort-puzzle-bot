@@ -9,7 +9,6 @@ from solver import BallSortPuzzle
 
 def handler(event: Optional[dict], context: Optional[dict]):
     body = json.loads(event['body'])  # type: ignore
-    print(body)
     message = body['message']
     chat_id = message['chat']['id']
 
