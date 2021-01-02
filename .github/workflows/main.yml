@@ -45,7 +45,7 @@ jobs:
           token: ${{ secrets.YC_TOKEN }}
           function_id: ${{ secrets.YC_FUNCTION_ID }}
           runtime: 'python38'
-          memory: '128'
+          memory: '256'
           execution_timeout: "120"
           entrypoint: 'main.handler'
           environment: "\
