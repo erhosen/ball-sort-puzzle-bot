@@ -78,10 +78,11 @@ class BallSortPuzzle:
 
     @staticmethod
     def _format_telegram_move(move: Move, coef: int) -> str:
+        move_dest = move.j + 1  # +1 because in human world nothing starts with zero
         if coef == 1:
-            return f"\n {move.emoji} -> {move.j}"
+            return f"\n {move.emoji} -> {move_dest}"
 
-        return f'\n {move.emoji * coef} -> {move.j}'
+        return f'\n {move.emoji * coef} -> {move_dest}'
 
     def get_telegram_repr(self) -> str:
         assert self.moves, "Puzzle is not solved!"
