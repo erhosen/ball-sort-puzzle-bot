@@ -1,7 +1,7 @@
 from pathlib import Path
 
 import numpy as np
-from image import img_to_colors
+from image import ImageParser
 from modules import color
 from solver import BallSortPuzzle
 
@@ -12,7 +12,8 @@ def test_image1():
     file_path = FILE_PATH.parent / "img/IMG_B66152AF3E01-1.jpg"
     with open(file_path, 'rb') as f:
         file_bytes = np.asarray(bytearray(f.read()), dtype=np.uint8)
-        colors = img_to_colors(file_bytes)
+        image_parser = ImageParser(file_bytes)
+        colors = image_parser.to_colors()
 
     assert colors == [
         [color.L_BLUE, color.L_BLUE, color.GREEN, color.L_GREEN],
@@ -36,7 +37,8 @@ def test_image2():
     file_path = FILE_PATH.parent / "img/file_3.jpg"
     with open(file_path, 'rb') as f:
         file_bytes = np.asarray(bytearray(f.read()), dtype=np.uint8)
-        colors = img_to_colors(file_bytes)
+        image_parser = ImageParser(file_bytes)
+        colors = image_parser.to_colors()
 
     assert colors
 
@@ -49,7 +51,8 @@ def test_image3():
     file_path = FILE_PATH.parent / "img/file_22.jpg"
     with open(file_path, 'rb') as f:
         file_bytes = np.asarray(bytearray(f.read()), dtype=np.uint8)
-        colors = img_to_colors(file_bytes)
+        image_parser = ImageParser(file_bytes)
+        colors = image_parser.to_colors()
 
     assert colors
 
@@ -62,7 +65,8 @@ def test_nine_flasks():
     file_path = FILE_PATH.parent / "img/file_32.jpg"
     with open(file_path, 'rb') as f:
         file_bytes = np.asarray(bytearray(f.read()), dtype=np.uint8)
-        colors = img_to_colors(file_bytes)
+        image_parser = ImageParser(file_bytes)
+        colors = image_parser.to_colors()
 
     assert colors
 
@@ -75,7 +79,8 @@ def test_image_and_solve():
     file_path = FILE_PATH.parent / "img/IMG_B66152AF3E01-1.jpg"
     with open(file_path, 'rb') as f:
         file_bytes = np.asarray(bytearray(f.read()), dtype=np.uint8)
-        colors = img_to_colors(file_bytes)
+        image_parser = ImageParser(file_bytes)
+        colors = image_parser.to_colors()
 
     puzzle = BallSortPuzzle(colors)  # type: ignore
     result = puzzle.solve()

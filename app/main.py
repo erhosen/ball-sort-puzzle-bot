@@ -3,7 +3,7 @@ from typing import Optional
 
 import numpy as np
 from client import TelegramClientError, telegram_client
-from image import ImageParsingError, img_to_colors
+from image import ImageParser, ImageParserError
 from solver import BallSortPuzzle
 
 
@@ -23,8 +23,9 @@ def handler(event: Optional[dict], context: Optional[dict]):
         else:
             file_bytes = np.asarray(bytearray(file.read()), dtype=np.uint8)
             try:
-                colors = img_to_colors(file_bytes)
-            except ImageParsingError as exp:
+                image_parser = ImageParser(file_bytes)
+                colors = image_parser.to_colors()
+            except ImageParserError as exp:
                 text = f"Cant parse image: {exp}"
             else:
                 puzzle = BallSortPuzzle(colors)  # type: ignore

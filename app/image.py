@@ -1,97 +1,87 @@
 import math
-from typing import List
+from typing import Any, List
 
 import cv2
 import numpy as np
 from modules.color import RBG_TO_COLOR, Color
 
 
-class ImageParsingError(Exception):
+class ImageParserError(Exception):
     pass
 
 
-def normalize(circles):
-    last_y = 0
-    for circle in circles:
-        if math.isclose(circle[1], last_y, abs_tol=3):
-            circle[1] = last_y
-        else:
-            last_y = circle[1]
+class ImageParser:
+    def __init__(self, file_bytes: np.ndarray):
+        self.image_orig = cv2.imdecode(file_bytes, cv2.IMREAD_COLOR)
+        self.image_cropped = self.get_cropped_image(self.image_orig)
 
-    return circles
+    @staticmethod
+    def get_cropped_image(image):
+        height, width, _ = image.shape
+        quarter = int(height / 4)
+        cropped_img = image[quarter : height - quarter]
+        return cropped_img
 
+    @staticmethod
+    def normalize_circles(circles):
+        last_y = 0
+        for circle in circles:
+            if math.isclose(circle[1], last_y, abs_tol=3):
+                circle[1] = last_y
+            else:
+                last_y = circle[1]
+        return circles
 
-def get_dominant_color(circle) -> Color:
-    colors, count = np.unique(circle.reshape(-1, circle.shape[-1]), axis=0, return_counts=True)
-    dominant = tuple(colors[count.argmax()])
-    try:
-        return RBG_TO_COLOR[dominant]  # type: ignore
-    except KeyError:
-        raise ImageParsingError(f"Unexpected color {dominant}")
+    @staticmethod
+    def get_dominant_color(circle) -> Color:
+        colors, count = np.unique(circle.reshape(-1, circle.shape[-1]), axis=0, return_counts=True)
+        dominant = tuple(colors[count.argmax()])
+        try:
+            return RBG_TO_COLOR[dominant]  # type: ignore
+        except KeyError:
+            raise ImageParserError(f"Unexpected color {dominant}")
 
+    @staticmethod
+    def fit_colors_to_flasks(ordered_colors, flasks_line1, flasks_line2):
+        balls_line1 = flasks_line1 * 4
+        line1: List[List[Color]] = [[] for _ in range(flasks_line1)]
+        for i, color in enumerate(reversed(ordered_colors[:balls_line1])):
+            line1[i % flasks_line1].append(color)
+        line1.reverse()
 
-def get_cropped_image(image):
-    height, width, _ = image.shape
-    quarter = int(height / 4)
-    cropped_img = image[quarter : height - quarter]
-    return cropped_img
+        line2: List[List[Color]] = [[] for _ in range(flasks_line2)]
+        for j, color in enumerate(reversed(ordered_colors[balls_line1:])):
+            line2[j % flasks_line2].append(color)
+        line2.reverse()
 
+        return line1 + line2 + [[], []]
 
-def img_to_colors(file_bytes):
-    image = cv2.imdecode(file_bytes, cv2.IMREAD_COLOR)
-    image = get_cropped_image(image)
-    img_copy = image.copy()
-    gray_image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
-    circles = cv2.HoughCircles(gray_image, cv2.HOUGH_GRADIENT, 2, 20, maxRadius=27)
+    def get_normalized_circles(self) -> List[Any]:
+        image_cropped_gray = cv2.cvtColor(self.image_cropped, cv2.COLOR_BGR2GRAY)
+        circles = cv2.HoughCircles(image_cropped_gray, cv2.HOUGH_GRADIENT, 2, 20, maxRadius=27)
+        if circles is None:
+            raise ImageParserError("No circles :shrug:")
 
-    ordered_colors = []
-    if circles is not None:
         circles = np.round(circles[0, :]).astype("int16")
         ind = np.lexsort((circles[:, 0], circles[:, 1]))
         circles = circles[ind]
-        circles = normalize(circles)
+        circles = self.normalize_circles(circles)
         ind = np.lexsort((circles[:, 0], circles[:, 1]))
         circles = circles[ind]
-        for i, (x, y, r) in enumerate(circles):
+        return circles
+
+    def to_colors(self) -> List[List[Color]]:
+        normalized_circles = self.get_normalized_circles()
+        ordered_colors = []
+        for i, (x, y, r) in enumerate(normalized_circles):
             small_r = r - 3
-            crop = img_copy[y - small_r : y + small_r, x - small_r : x + small_r]
-            color = get_dominant_color(crop)
+            circle = self.image_cropped[y - small_r : y + small_r, x - small_r : x + small_r]
+            color = self.get_dominant_color(circle)
             ordered_colors.append(color)
 
-            # cv2.imwrite(f"/Users/vviazovetskov/PycharmProjects/ball-sort-puzzle/app/tests/img/img_{i}.jpg", crop)  # noqa
-            # cv2.circle(img_copy, (x, y), r, (0, 255, 0), 4)
-            # cv2.putText(img_copy, str(i), (x - 5, y - 5), 1, fontScale=1, color=(0, 128, 255))
-            # cv2.rectangle(img_copy, (x - 5, y - 5), (x + 5, y + 5), (0, 128, 255), -1)
-
-    # cv2.imshow("output", img_copy)
-    # cv2.waitKey(0)
-
-    if not ordered_colors:
-        raise ImageParsingError("No circles :shrug:")
-
-    if len(ordered_colors) == 48:
-        flasks1: List[List[Color]] = [[] for _ in range(7)]
-        for i, color in enumerate(reversed(ordered_colors[:28])):
-            flasks1[i % 7].append(color)
-        flasks1.reverse()
-
-        flasks2: List[List[Color]] = [[] for _ in range(5)]
-        for j, color in enumerate(reversed(ordered_colors[28:])):
-            flasks2[j % 5].append(color)
-        flasks2.reverse()
-
-        return flasks1 + flasks2 + [[], []]
-    elif len(ordered_colors) == 36:
-        flasks1: List[List[Color]] = [[] for _ in range(6)]
-        for i, color in enumerate(reversed(ordered_colors[:24])):
-            flasks1[i % 6].append(color)
-        flasks1.reverse()
-
-        flasks2: List[List[Color]] = [[] for _ in range(3)]
-        for j, color in enumerate(reversed(ordered_colors[24:])):
-            flasks2[j % 3].append(color)
-        flasks2.reverse()
-
-        return flasks1 + flasks2 + [[], []]
-    else:
-        raise ImageParsingError("NotImplementedError")
+        if len(ordered_colors) == 48:
+            return self.fit_colors_to_flasks(ordered_colors, flasks_line1=7, flasks_line2=5)
+        elif len(ordered_colors) == 36:
+            return self.fit_colors_to_flasks(ordered_colors, flasks_line1=6, flasks_line2=3)
+        else:
+            raise ImageParserError("NotImplementedError")
