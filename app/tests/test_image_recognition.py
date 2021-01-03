@@ -1,6 +1,7 @@
 from pathlib import Path
 
 import numpy as np
+import pytest
 from image import ImageParser
 from modules import color
 from solver import BallSortPuzzle
@@ -12,7 +13,7 @@ def test_image1():
     file_path = FILE_PATH.parent / "img/IMG_B66152AF3E01-1.jpg"
     with open(file_path, 'rb') as f:
         file_bytes = np.asarray(bytearray(f.read()), dtype=np.uint8)
-        image_parser = ImageParser(file_bytes, debug=True)
+        image_parser = ImageParser(file_bytes, debug=False)
         colors = image_parser.to_colors()
 
     assert colors == [
@@ -61,8 +62,18 @@ def test_image3():
     assert result is True
 
 
-def test_image_android():
-    file_path = FILE_PATH.parent / "img/file_34.jpg"
+@pytest.mark.parametrize(
+    'filename',
+    [
+        'img/file_28.jpg',
+        'img/file_29.jpg',
+        'img/file_31.jpg',
+        'img/file_34.jpg',
+        'img/file_35.jpg',
+    ],
+)
+def test_image_android(filename):
+    file_path = FILE_PATH.parent / filename
     with open(file_path, 'rb') as f:
         file_bytes = np.asarray(bytearray(f.read()), dtype=np.uint8)
         image_parser = ImageParser(file_bytes, debug=False)
@@ -75,8 +86,8 @@ def test_image_android():
     assert result is True
 
 
-def test_image_android2():
-    file_path = FILE_PATH.parent / "img/file_35.jpg"
+def test_lvl_6071_no_solution():
+    file_path = FILE_PATH.parent / 'img/file_30.jpg'
     with open(file_path, 'rb') as f:
         file_bytes = np.asarray(bytearray(f.read()), dtype=np.uint8)
         image_parser = ImageParser(file_bytes, debug=False)
@@ -86,7 +97,7 @@ def test_image_android2():
 
     puzzle = BallSortPuzzle(colors)  # type: ignore
     result = puzzle.solve()
-    assert result is True
+    assert result is False
 
 
 def test_nine_flasks():
