@@ -88,7 +88,7 @@ class BallSortPuzzle:
     def get_telegram_repr(self) -> str:
         assert self.moves, "Puzzle is not solved!"
 
-        solution = ''
+        solution = ' '
         prev_move, coef = self.moves[0], 1
         for move in self.moves[1:]:
             if move == prev_move:
@@ -98,7 +98,7 @@ class BallSortPuzzle:
                 prev_move, coef = move, 1
 
         solution += self._format_telegram_move(prev_move, coef)
-        return f'``` {solution}```'
+        return solution
 
     def __str__(self) -> str:
         result = '\n'
