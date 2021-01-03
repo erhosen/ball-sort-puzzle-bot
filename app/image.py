@@ -1,9 +1,10 @@
 import math
+from collections import Counter
 from typing import Any, List
 
 import cv2
 import numpy as np
-from modules.color import RBG_TO_COLOR, Color
+from modules.color import Color, get_closest_color
 
 
 class ImageParserError(Exception):
@@ -37,11 +38,14 @@ class ImageParser:
     @staticmethod
     def get_dominant_color(circle) -> Color:
         colors, count = np.unique(circle.reshape(-1, circle.shape[-1]), axis=0, return_counts=True)
-        dominant = tuple(colors[count.argmax()])
-        try:
-            return RBG_TO_COLOR[dominant]  # type: ignore
-        except KeyError:
-            raise ImageParserError(f"Unexpected color {dominant}")
+        dominant = colors[count.argmax()]
+        return get_closest_color(dominant)
+
+    @staticmethod
+    def consistency_check(ordered_colors):
+        counter = Counter(ordered_colors)
+        if not all(count == 4 for count in counter.values()):
+            raise ImageParserError(f"Inconsistent number of colors: {counter}")
 
     @staticmethod
     def fit_colors_to_flasks(ordered_colors, flasks_line1: int, flasks_line2: int) -> List[List[Color]]:
@@ -79,11 +83,11 @@ class ImageParser:
             small_r = r - 3
             circle = self.image_cropped[y - small_r : y + small_r, x - small_r : x + small_r]
             if self.debug:
-                cv2.imwrite(
-                    f"/Users/vviazovetskov/PycharmProjects/ball-sort-puzzle/app/tests/img/img_{i}.jpg", circle
-                )  # noqa
+                cv2.imwrite(f"img/img_{i}.jpg", circle)  # noqa
             color = self.get_dominant_color(circle)
             ordered_colors.append(color)
+
+        self.consistency_check(ordered_colors)
 
         if len(ordered_colors) == 48:
             return self.fit_colors_to_flasks(ordered_colors, flasks_line1=7, flasks_line2=5)

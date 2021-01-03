@@ -1,3 +1,6 @@
+import numpy as np
+
+
 class Color:
     def __init__(self, symbol, verbose_name, emoji):
         self.symbol = symbol
@@ -27,20 +30,6 @@ GRAY = Color('Q', 'Gray', '⚪')
 BROWN = Color('X', 'Brown', '🟤')
 
 RBG_TO_COLOR = {
-    # IOS
-    (134, 212, 129): L_GREEN,
-    (26, 75, 119): BROWN,
-    (142, 47, 104): VIOLET,
-    (81, 143, 219): ORANGE,
-    (187, 46, 57): BLUE,
-    (224, 161, 103): L_BLUE,
-    (55, 99, 46): GREEN,
-    (102, 100, 99): GRAY,
-    (108, 218, 236): YELLOW,
-    (123, 103, 216): PINK,
-    (48, 149, 127): LIME,
-    (45, 57, 181): RED,
-    # IOS compressed
     (147, 42, 115): VIOLET,
     (8, 74, 125): BROWN,
     (229, 163, 85): L_BLUE,
@@ -52,16 +41,13 @@ RBG_TO_COLOR = {
     (125, 214, 97): L_GREEN,
     (123, 94, 234): PINK,
     (16, 150, 120): LIME,
-    # Android
-    (196, 48, 60): BLUE,
-    (105, 101, 100): GRAY,
-    (230, 162, 87): L_BLUE,
-    (149, 43, 114): VIOLET,
-    (15, 152, 121): LIME,
-    (88, 218, 241): YELLOW,
-    (51, 101, 17): GREEN,
-    (65, 140, 232): ORANGE,
-    (14, 151, 120): LIME,
-    (195, 47, 59): BLUE,
-    (147, 43, 114): VIOLET,
+    (102, 100, 99): GRAY,
 }
+COLORS = np.array(list(RBG_TO_COLOR.keys()))
+
+
+def get_closest_color(color: np.ndarray) -> Color:
+    distances = np.sqrt(np.sum((COLORS - color) ** 2, axis=1))
+    index_of_smallest = np.where(distances == np.amin(distances))
+    smallest_distance = COLORS[index_of_smallest].flat
+    return RBG_TO_COLOR[tuple(smallest_distance)]  # type: ignore
