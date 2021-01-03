@@ -40,6 +40,10 @@ def test_image2():
 
     assert colors
 
+    puzzle = BallSortPuzzle(colors)  # type: ignore
+    result = puzzle.solve()
+    assert result is True
+
 
 def test_image3():
     file_path = FILE_PATH.parent / "img/file_22.jpg"
