@@ -58,6 +58,19 @@ def test_image3():
     assert result is True
 
 
+def test_nine_flasks():
+    file_path = FILE_PATH.parent / "img/file_32.jpg"
+    with open(file_path, 'rb') as f:
+        file_bytes = np.asarray(bytearray(f.read()), dtype=np.uint8)
+        colors = img_to_colors(file_bytes)
+
+    assert colors
+
+    puzzle = BallSortPuzzle(colors)  # type: ignore
+    result = puzzle.solve()
+    assert result is True
+
+
 def test_image_and_solve():
     file_path = FILE_PATH.parent / "img/IMG_B66152AF3E01-1.jpg"
     with open(file_path, 'rb') as f:

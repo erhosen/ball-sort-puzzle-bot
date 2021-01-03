@@ -82,6 +82,16 @@ def img_to_colors(file_bytes):
 
         return flasks1 + flasks2 + [[], []]
     elif len(ordered_colors) == 36:
-        raise ImageParsingError("NotImplementedError")
+        flasks1: List[List[Color]] = [[] for _ in range(6)]
+        for i, color in enumerate(reversed(ordered_colors[:24])):
+            flasks1[i % 6].append(color)
+        flasks1.reverse()
+
+        flasks2: List[List[Color]] = [[] for _ in range(3)]
+        for j, color in enumerate(reversed(ordered_colors[24:])):
+            flasks2[j % 3].append(color)
+        flasks2.reverse()
+
+        return flasks1 + flasks2 + [[], []]
     else:
         raise ImageParsingError("NotImplementedError")
