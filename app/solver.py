@@ -98,7 +98,7 @@ class BallSortPuzzle:
                 prev_move, coef = move, 1
 
         solution += self._format_telegram_move(prev_move, coef)
-        return solution
+        return f'```{solution}```'
 
     def __str__(self) -> str:
         result = '\n'

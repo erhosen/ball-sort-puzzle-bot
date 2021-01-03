@@ -29,8 +29,11 @@ def handler(event: Optional[dict], context: Optional[dict]):
                 text = f"Cant parse image: {exp}"
             else:
                 puzzle = BallSortPuzzle(colors)  # type: ignore
-                puzzle.solve()
-                text = puzzle.get_telegram_repr()
+                solved = puzzle.solve()
+                if solved:
+                    text = puzzle.get_telegram_repr()
+                else:
+                    text = "This lvl don't have a solution"
     else:
         return {
             'statusCode': 200,
