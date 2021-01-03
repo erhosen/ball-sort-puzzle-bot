@@ -32,7 +32,12 @@ def handler(event: Optional[dict], context: Optional[dict]):
                 puzzle.solve()
                 text = puzzle.get_telegram_repr()
     else:
-        text = "file not found"
+        return {
+            'statusCode': 200,
+            'headers': {'Content-Type': 'application/json'},
+            'body': '',
+            'isBase64Encoded': False,
+        }
 
     msg = {'method': 'sendMessage', 'chat_id': chat_id, 'text': text, 'parse_mode': 'Markdown'}
 
