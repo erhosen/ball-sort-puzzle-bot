@@ -39,7 +39,13 @@ def handler(event: Optional[dict], context: Optional[dict]):
             'isBase64Encoded': False,
         }
 
-    msg = {'method': 'sendMessage', 'chat_id': chat_id, 'text': text, 'parse_mode': 'Markdown'}
+    msg = {
+        'method': 'sendMessage',
+        'chat_id': chat_id,
+        'text': text,
+        'parse_mode': 'Markdown',
+        'reply_to_message_id': message['message_id'],
+    }
 
     return {
         'statusCode': 200,
