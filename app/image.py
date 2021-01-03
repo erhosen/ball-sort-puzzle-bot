@@ -11,9 +11,11 @@ class ImageParserError(Exception):
 
 
 class ImageParser:
-    def __init__(self, file_bytes: np.ndarray):
+    def __init__(self, file_bytes: np.ndarray, debug=False):
         self.image_orig = cv2.imdecode(file_bytes, cv2.IMREAD_COLOR)
         self.image_cropped = self.get_cropped_image(self.image_orig)
+
+        self.debug = debug
 
     @staticmethod
     def get_cropped_image(image):
@@ -42,7 +44,7 @@ class ImageParser:
             raise ImageParserError(f"Unexpected color {dominant}")
 
     @staticmethod
-    def fit_colors_to_flasks(ordered_colors, flasks_line1, flasks_line2):
+    def fit_colors_to_flasks(ordered_colors, flasks_line1: int, flasks_line2: int) -> List[List[Color]]:
         balls_line1 = flasks_line1 * 4
         line1: List[List[Color]] = [[] for _ in range(flasks_line1)]
         for i, color in enumerate(reversed(ordered_colors[:balls_line1])):
@@ -76,6 +78,10 @@ class ImageParser:
         for i, (x, y, r) in enumerate(normalized_circles):
             small_r = r - 3
             circle = self.image_cropped[y - small_r : y + small_r, x - small_r : x + small_r]
+            if self.debug:
+                cv2.imwrite(
+                    f"/Users/vviazovetskov/PycharmProjects/ball-sort-puzzle/app/tests/img/img_{i}.jpg", circle
+                )  # noqa
             color = self.get_dominant_color(circle)
             ordered_colors.append(color)
 
