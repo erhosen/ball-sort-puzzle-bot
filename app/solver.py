@@ -76,8 +76,27 @@ class BallSortPuzzle:
     def state(self) -> str:
         return '|'.join(flask.state for flask in self.flasks)
 
+    @staticmethod
+    def _format_telegram_move(move: Move, coef: int) -> str:
+        if coef == 1:
+            return f"\n {move.emoji} -> {move.j}"
+
+        return f'\n {move.emoji * coef} -> {move.j}'
+
     def get_telegram_repr(self) -> str:
-        return "\n *".join(move.get_telegram_repr() for move in self.moves)
+        assert self.moves, "Puzzle is not solved!"
+
+        solution = ''
+        prev_move, coef = self.moves[0], 1
+        for move in self.moves[1:]:
+            if move == prev_move:
+                coef += 1
+            else:
+                solution += self._format_telegram_move(prev_move, coef)
+                prev_move, coef = move, 1
+
+        solution += self._format_telegram_move(prev_move, coef)
+        return f'``` {solution}```'
 
     def __str__(self) -> str:
         result = '\n'

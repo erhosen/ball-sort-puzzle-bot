@@ -7,10 +7,10 @@ class Move:
         self.j = j
         self.emoji = i_color.emoji
 
-    def get_telegram_repr(self) -> str:
-        return f"{self.emoji} -> {self.j}"
+    def __eq__(self, other: 'Move') -> bool:  # type: ignore
+        return (self.i, self.j) == (other.i, other.j)
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         return f'Ball({self})'
 
     def __str__(self) -> str:
