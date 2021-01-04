@@ -76,30 +76,6 @@ class BallSortPuzzle:
     def state(self) -> str:
         return '|'.join(flask.state for flask in self.flasks)
 
-    @staticmethod
-    def _format_telegram_move(move: Move, coef: int) -> str:
-        move_orig = move.i + 1  # +1 because in human world
-        move_dest = move.j + 1  # nothing starts with zero
-        if coef == 1:
-            return f"\n {move_orig}th {move.emoji} -> {move_dest}th tube"
-
-        return f'\n {move_orig}th {move.emoji * coef} -> {move_dest}th tube'
-
-    def get_telegram_repr(self) -> str:
-        assert self.moves, "Puzzle is not solved!"
-
-        solution = ' '
-        prev_move, coef = self.moves[0], 1
-        for move in self.moves[1:]:
-            if move == prev_move:
-                coef += 1
-            else:
-                solution += self._format_telegram_move(prev_move, coef)
-                prev_move, coef = move, 1
-
-        solution += self._format_telegram_move(prev_move, coef)
-        return f'```{solution}```'
-
     def __str__(self) -> str:
         result = '\n'
         for ball_idx in range(self.flask_size - 1, -1, -1):
@@ -114,3 +90,28 @@ class BallSortPuzzle:
             result += f' {flask.num}  '
         result += '\n'
         return result
+
+
+def _format_telegram_move(move: Move, coef: int) -> str:
+    move_orig = move.i + 1  # +1 because in human world
+    move_dest = move.j + 1  # count starts with 1
+    if coef == 1:
+        return f"\n {move_orig}th {move.emoji} -> {move_dest}th tube"
+
+    return f'\n {move_orig}th {move.emoji * coef} -> {move_dest}th tube'
+
+
+def get_telegram_repr(puzzle: BallSortPuzzle) -> str:
+    assert puzzle.moves, "Puzzle is not solved!"
+
+    solution = ''
+    prev_move, coef = puzzle.moves[0], 1
+    for move in puzzle.moves[1:]:
+        if move == prev_move:
+            coef += 1
+        else:
+            solution += _format_telegram_move(prev_move, coef)
+            prev_move, coef = move, 1
+
+    solution += _format_telegram_move(prev_move, coef)
+    return f'``` {solution}```'
