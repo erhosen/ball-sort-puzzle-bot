@@ -23,7 +23,7 @@ class Flask:
         return all(self.balls[0] == ball for ball in self.balls)
 
     @property
-    def is_solved(self):
+    def is_solved(self) -> bool:
         if self.is_empty:
             return True
         if self.is_full and self.has_one_color:
@@ -56,14 +56,8 @@ class Flask:
 
     @property
     def state(self) -> str:
-        state = ''
-        for i in range(self.max_size):
-            try:
-                ball: Ball = self.balls[i]
-                state += ball.color.symbol
-            except IndexError:
-                state += '#'
-        return state
+        state = ''.join(ball.color.symbol for ball in self.balls)
+        return f"{state:#<4}"
 
     def __iter__(self):
         return iter(self.balls)

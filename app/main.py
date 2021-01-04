@@ -4,7 +4,7 @@ from typing import Optional
 import numpy as np
 from client import TelegramClientError, telegram_client
 from image import ImageParser, ImageParserError
-from solver import BallSortPuzzle
+from solver import BallSortPuzzle, get_telegram_repr
 
 
 def handler(event: Optional[dict], context: Optional[dict]):
@@ -31,7 +31,7 @@ def handler(event: Optional[dict], context: Optional[dict]):
                 puzzle = BallSortPuzzle(colors)  # type: ignore
                 solved = puzzle.solve()
                 if solved:
-                    text = puzzle.get_telegram_repr()
+                    text = get_telegram_repr(puzzle)
                 else:
                     text = "This lvl don't have a solution"
     else:
