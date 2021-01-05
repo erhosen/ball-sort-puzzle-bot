@@ -67,10 +67,11 @@ class BallSortPuzzle:
         return False
 
     def play_moves(self, moves: List[Move]):
+        print(self)
         for move in moves:
-            print(self)
             print(f'## {move} ##')
             self.commit_move(move)
+            print(self)
 
     @property
     def state(self) -> str:
@@ -87,7 +88,7 @@ class BallSortPuzzle:
                 result += f'|{ball}| '
             result += '\n'
         for flask in self.flasks:
-            result += f' {flask.num}  '
+            result += f' {flask.num}   '
         result += '\n'
         return result
 
@@ -102,7 +103,7 @@ def _format_telegram_move(move: Move, coef: int) -> str:
 
 
 def get_telegram_repr(puzzle: BallSortPuzzle) -> str:
-    assert puzzle.moves, "Puzzle is not solved!"
+    assert puzzle.is_solved and puzzle.moves, "Puzzle is not solved!"
 
     solution = ''
     prev_move, coef = puzzle.moves[0], 1
