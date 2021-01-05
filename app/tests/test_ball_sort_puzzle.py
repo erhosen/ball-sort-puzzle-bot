@@ -4,8 +4,8 @@ from solver import BallSortPuzzle
 
 def test_3x3():
     data_in = [
-        [color.RED, color.L_GREEN, color.RED],
-        [color.L_GREEN, color.RED, color.L_GREEN],
+        [color.RED, color.GREEN, color.RED],
+        [color.GREEN, color.RED, color.GREEN],
         [],
     ]
 
