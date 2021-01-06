@@ -1,25 +1,27 @@
 # Ball Sort Puzzle
 
 <p align="center">
-   <img src="img/logo_small.jpg" />
-   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+   <img src="img/logo_big.jpg" />
+   &nbsp;&nbsp;&nbsp;&nbsp;
    <img src="img/demo.gif" />
 </p>
 
 Telegram bot, that solves Ball Sort Puzzle mobile game. Written in Python, hosted by serverless Yandex.Function.
+
 You can find a profound description about how it works [here](https://habr.com/ru/post/536086/) [Russian].
 
 **Usage**
 ---
 
-* Add Telegram bot [@ballsortpuzzlebot](https://t.me/ballsortpuzzlebot) to list of your contacts.
+* Add the Telegram Bot [@ballsortpuzzlebot](https://t.me/ballsortpuzzlebot) to list of your contacts.
 * Send him a screenshot of the Ball Sort Puzzle game.
 * You will receive a solution. That's all!
 
 **How to Contribute**
 ---
 
-1. Clone repo and create a new branch: `$ git checkout https://github.com/ErhoSen/ball-sort-puzzle -b name_for_new_branch`.
+1. Clone repo and create a new branch:
+    + `$ git checkout https://github.com/ErhoSen/ball-sort-puzzle -b name_for_new_branch`.
 
 1. Install all dependencies with [`Poetry`](https://python-poetry.org/)
     + `$ poetry install`
@@ -38,4 +40,4 @@ You can find a profound description about how it works [here](https://habr.com/r
 **Links**
 ---
 
-Join [Ball Sort Puzzle](https://t.me/joinchat/ESxZzRnHXdPzr5XVAV6UfQ) community in Telegram
+* Join [Ball Sort Puzzle](https://t.me/joinchat/ESxZzRnHXdPzr5XVAV6UfQ) community in Telegram [International]
