@@ -1,7 +1,7 @@
 # Ball Sort Puzzle
 
 <p align="center">
-   <img src="img/logo_small.jpg" />
+   <img src="img/logo_small.jpg" />&nbsp;&nbsp;&nbsp;
    <img src="img/demo.gif" />
 </p>
 
