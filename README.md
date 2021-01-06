@@ -10,6 +10,10 @@ Telegram bot, that solves Ball Sort Puzzle mobile game. Written in Python, hoste
 
 You can find a profound description about how it works [here](https://habr.com/ru/post/536086/) [Russian].
 
+<p align="center">
+   <img src="img/logo_big.jpg" height="480" />
+</p>
+
 **Usage**
 ---
 
