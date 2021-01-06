@@ -40,4 +40,4 @@ You can find a profound description about how it works [here](https://habr.com/r
 **Links**
 ---
 
-* Join [Ball Sort Puzzle](https://t.me/joinchat/ESxZzRnHXdPzr5XVAV6UfQ) community in Telegram [International]
+* Join [Ball Sort Puzzle](https://t.me/joinchat/ESxZzRnHXdPzr5XVAV6UfQ) Telegram community [International]
