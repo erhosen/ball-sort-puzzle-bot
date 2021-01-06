@@ -87,7 +87,7 @@ def test_image_android(filename):
 
 
 def test_lvl_6071_no_solution():
-    file_path = FILE_PATH.parent / 'img/file_30.jpg'
+    file_path = FILE_PATH.parent / 'img/file_52.jpg'
     with open(file_path, 'rb') as f:
         file_bytes = np.asarray(bytearray(f.read()), dtype=np.uint8)
         image_parser = ImageParser(file_bytes, debug=False)
