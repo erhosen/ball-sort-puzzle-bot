@@ -44,7 +44,7 @@ class Flask:
     def can_receive(self, ball: Ball) -> bool:
         if self.is_full:
             return False
-        if self.is_empty or self.upper_ball == ball:  # type: ignore
+        if self.is_empty or self.upper_ball == ball:
             return True
         return False
 
