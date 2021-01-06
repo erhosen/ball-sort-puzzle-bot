@@ -83,7 +83,7 @@ class ImageParser:
             small_r = r - 3
             circle = self.image_cropped[y - small_r : y + small_r, x - small_r : x + small_r]
             if self.debug:
-                cv2.imwrite(f"img/img_{i}.jpg", circle)  # noqa
+                cv2.imwrite(f"img/img_{i}.jpg", circle)
             color = self.get_dominant_color(circle)
             ordered_colors.append(color)
 
