@@ -1,9 +1,8 @@
 # Ball Sort Puzzle
 
 <div align="center" height="480px" widht="100%">
-   <img src="img/logo_big.jpg" />
-   &nbsp;&nbsp;&nbsp;&nbsp;
-   <img src="img/demo.gif" />
+   <img src="img/logo_big.jpg" widht="66%" />
+   <img src="img/demo.gif" widht="33%" />
 </div>
 
 Telegram bot, that solves Ball Sort Puzzle mobile game. Written in Python, hosted by serverless Yandex.Function.
