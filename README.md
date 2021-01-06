@@ -1,6 +1,6 @@
 # Ball Sort Puzzle
 
-<p align="center" height="480px">
+<p align="center" height="480px" widht="100%">
    <img src="img/logo_big.jpg" />
    &nbsp;&nbsp;&nbsp;&nbsp;
    <img src="img/demo.gif" />
