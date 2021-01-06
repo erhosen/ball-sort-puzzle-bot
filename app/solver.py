@@ -6,8 +6,7 @@ from modules.color import Color
 
 class BallSortPuzzle:
     def __init__(self, columns: List[List[Color]]):
-        self.flask_amount = len(columns)
-        self.flask_size = len(columns[0])
+        self.flask_size = len(columns[0])  # here an assertion, that the first flask is always full
         self.flasks = [Flask(column, i, self.flask_size) for i, column in enumerate(columns)]
         self.moves: List[Move] = []
         self.states: Set[str] = set()
@@ -30,21 +29,16 @@ class BallSortPuzzle:
 
         return moves
 
-    def commit_move(self, move: Move):
+    def commit_move(self, move: Move) -> str:
         ball = self.flasks[move.i].pop()
         self.flasks[move.j].push(ball)
         self.moves.append(move)
+        return self.calculate_state()
 
     def rollback_move(self, move: Move):
         ball = self.flasks[move.j].pop()
         self.flasks[move.i].push(ball)
         self.moves.pop()
-
-    def has_cycle(self, move) -> bool:
-        self.commit_move(move)
-        has_cycle = self.state in self.states
-        self.rollback_move(move)
-        return has_cycle
 
     @property
     def is_solved(self):
@@ -55,26 +49,19 @@ class BallSortPuzzle:
             return True
 
         for move in self.get_possible_moves():
-            if self.has_cycle(move):
+            new_state = self.commit_move(move)
+            if new_state in self.states:  # Cycle!
+                self.rollback_move(move)
                 continue
 
-            self.commit_move(move)
-            self.states.add(self.state)
+            self.states.add(new_state)
             if self.solve():
                 return True
             self.rollback_move(move)
 
         return False
 
-    def play_moves(self, moves: List[Move]):
-        print(self)
-        for move in moves:
-            print(f'## {move} ##')
-            self.commit_move(move)
-            print(self)
-
-    @property
-    def state(self) -> str:
+    def calculate_state(self) -> str:
         return '|'.join(flask.state for flask in self.flasks)
 
     def __str__(self) -> str:
@@ -91,6 +78,15 @@ class BallSortPuzzle:
             result += f' {flask.num}   '
         result += '\n'
         return result
+
+
+def play_moves(data_in: List[List[Color]], moves: List[Move]):
+    puzzle = BallSortPuzzle(data_in)
+    print(puzzle)
+    for move in moves:
+        print(f'## {move} ##')
+        puzzle.commit_move(move)
+        print(puzzle)
 
 
 def _format_telegram_move(move: Move, coef: int) -> str:

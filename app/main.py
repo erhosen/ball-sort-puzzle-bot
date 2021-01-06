@@ -28,7 +28,7 @@ def handler(event: Optional[dict], context: Optional[dict]):
             except ImageParserError as exp:
                 text = f"Cant parse image: {exp}"
             else:
-                puzzle = BallSortPuzzle(colors)  # type: ignore
+                puzzle = BallSortPuzzle(colors)
                 solved = puzzle.solve()
                 if solved:
                     text = get_telegram_repr(puzzle)

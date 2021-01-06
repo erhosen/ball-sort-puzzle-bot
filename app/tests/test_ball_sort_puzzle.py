@@ -1,5 +1,5 @@
 from modules import color
-from solver import BallSortPuzzle
+from solver import BallSortPuzzle, play_moves
 
 
 def test_3x3():
@@ -9,12 +9,10 @@ def test_3x3():
         [],
     ]
 
-    puzzle = BallSortPuzzle(data_in)  # type: ignore
+    puzzle = BallSortPuzzle(data_in)
     result = puzzle.solve()
     assert result is True
-
-    puzzle_again = BallSortPuzzle(data_in)
-    puzzle_again.play_moves(puzzle.moves)
+    play_moves(data_in, puzzle.moves)
 
 
 def test_4x3():
@@ -24,12 +22,10 @@ def test_4x3():
         [],
     ]
 
-    puzzle = BallSortPuzzle(data_in)  # type: ignore
+    puzzle = BallSortPuzzle(data_in)
     result = puzzle.solve()
     assert result is True
-
-    puzzle_again = BallSortPuzzle(data_in)
-    puzzle_again.play_moves(puzzle.moves)
+    play_moves(data_in, puzzle.moves)
 
 
 def test_4x5():
@@ -41,12 +37,10 @@ def test_4x5():
         [],
     ]
 
-    puzzle = BallSortPuzzle(data_in)  # type: ignore
+    puzzle = BallSortPuzzle(data_in)
     result = puzzle.solve()
     assert result is True
-
-    puzzle_again = BallSortPuzzle(data_in)
-    puzzle_again.play_moves(puzzle.moves)
+    play_moves(data_in, puzzle.moves)
 
 
 def test_4x7():
@@ -60,12 +54,10 @@ def test_4x7():
         [],
     ]
 
-    puzzle = BallSortPuzzle(data_in)  # type: ignore
+    puzzle = BallSortPuzzle(data_in)
     result = puzzle.solve()
     assert result is True
-
-    puzzle_again = BallSortPuzzle(data_in)
-    puzzle_again.play_moves(puzzle.moves)
+    play_moves(data_in, puzzle.moves)
 
 
 def test_4x9():
@@ -81,12 +73,10 @@ def test_4x9():
         [],
     ]
 
-    puzzle = BallSortPuzzle(data_in)  # type: ignore
+    puzzle = BallSortPuzzle(data_in)
     result = puzzle.solve()
     assert result is True
-
-    puzzle_again = BallSortPuzzle(data_in)
-    puzzle_again.play_moves(puzzle.moves)
+    play_moves(data_in, puzzle.moves)
 
 
 def test_4x11():
@@ -104,12 +94,10 @@ def test_4x11():
         [],
     ]
 
-    puzzle = BallSortPuzzle(data_in)  # type: ignore
+    puzzle = BallSortPuzzle(data_in)
     result = puzzle.solve()
     assert result is True
-
-    puzzle_again = BallSortPuzzle(data_in)
-    puzzle_again.play_moves(puzzle.moves)
+    play_moves(data_in, puzzle.moves)
 
 
 def test_4x14():
@@ -130,9 +118,7 @@ def test_4x14():
         [],
     ]
 
-    puzzle = BallSortPuzzle(data_in)  # type: ignore
+    puzzle = BallSortPuzzle(data_in)
     result = puzzle.solve()
     assert result is True
-
-    puzzle_again = BallSortPuzzle(data_in)
-    puzzle_again.play_moves(puzzle.moves)
+    play_moves(data_in, puzzle.moves)

@@ -10,7 +10,7 @@ FILE_PATH = Path(__file__)
 
 
 def test_image1():
-    file_path = FILE_PATH.parent / "img/IMG_B66152AF3E01-1.jpg"
+    file_path = FILE_PATH.parent / "img/lvl_725.jpg"
     with open(file_path, 'rb') as f:
         file_bytes = np.asarray(bytearray(f.read()), dtype=np.uint8)
         image_parser = ImageParser(file_bytes, debug=False)
@@ -35,7 +35,7 @@ def test_image1():
 
 
 def test_image2():
-    file_path = FILE_PATH.parent / "img/file_3.jpg"
+    file_path = FILE_PATH.parent / "img/lvl_863.jpg"
     with open(file_path, 'rb') as f:
         file_bytes = np.asarray(bytearray(f.read()), dtype=np.uint8)
         image_parser = ImageParser(file_bytes)
@@ -43,13 +43,13 @@ def test_image2():
 
     assert colors
 
-    puzzle = BallSortPuzzle(colors)  # type: ignore
+    puzzle = BallSortPuzzle(colors)
     result = puzzle.solve()
     assert result is True
 
 
 def test_image3():
-    file_path = FILE_PATH.parent / "img/file_22.jpg"
+    file_path = FILE_PATH.parent / "img/lvl_1051.jpg"
     with open(file_path, 'rb') as f:
         file_bytes = np.asarray(bytearray(f.read()), dtype=np.uint8)
         image_parser = ImageParser(file_bytes)
@@ -57,7 +57,7 @@ def test_image3():
 
     assert colors
 
-    puzzle = BallSortPuzzle(colors)  # type: ignore
+    puzzle = BallSortPuzzle(colors)
     result = puzzle.solve()
     assert result is True
 
@@ -65,11 +65,9 @@ def test_image3():
 @pytest.mark.parametrize(
     'filename',
     [
-        'img/file_28.jpg',
-        'img/file_29.jpg',
-        'img/file_31.jpg',
-        'img/file_34.jpg',
-        'img/file_35.jpg',
+        'img/lvl_5462.jpg',
+        'img/lvl_10300.jpg',
+        'img/lvl_5461.jpg',
     ],
 )
 def test_image_android(filename):
@@ -81,7 +79,7 @@ def test_image_android(filename):
 
     assert colors
 
-    puzzle = BallSortPuzzle(colors)  # type: ignore
+    puzzle = BallSortPuzzle(colors)
     result = puzzle.solve()
     assert result is True
 
@@ -89,8 +87,8 @@ def test_image_android(filename):
 @pytest.mark.parametrize(
     'filename',
     [
-        'img/file_52.jpg',
-        'img/file_59.jpg',
+        'img/lvl_6071.jpg',
+        'img/lvl_4091.jpg',
     ],
 )
 def test_no_solution(filename):
@@ -102,13 +100,13 @@ def test_no_solution(filename):
 
     assert colors
 
-    puzzle = BallSortPuzzle(colors)  # type: ignore
+    puzzle = BallSortPuzzle(colors)
     result = puzzle.solve()
     assert result is False
 
 
 def test_nine_flasks():
-    file_path = FILE_PATH.parent / "img/file_32.jpg"
+    file_path = FILE_PATH.parent / "img/lvl_1056.jpg"
     with open(file_path, 'rb') as f:
         file_bytes = np.asarray(bytearray(f.read()), dtype=np.uint8)
         image_parser = ImageParser(file_bytes)
@@ -116,19 +114,19 @@ def test_nine_flasks():
 
     assert colors
 
-    puzzle = BallSortPuzzle(colors)  # type: ignore
+    puzzle = BallSortPuzzle(colors)
     result = puzzle.solve()
     assert result is True
 
 
 def test_image_and_solve():
-    file_path = FILE_PATH.parent / "img/IMG_B66152AF3E01-1.jpg"
+    file_path = FILE_PATH.parent / "img/lvl_725.jpg"
     with open(file_path, 'rb') as f:
         file_bytes = np.asarray(bytearray(f.read()), dtype=np.uint8)
         image_parser = ImageParser(file_bytes)
         colors = image_parser.to_colors()
 
-    puzzle = BallSortPuzzle(colors)  # type: ignore
+    puzzle = BallSortPuzzle(colors)
     result = puzzle.solve()
     assert result is True
     assert (

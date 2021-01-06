@@ -1,7 +1,7 @@
 [tool.poetry]
 name = "ball-sort-puzzle"
 version = "0.1.0"
-description = "Solver for mobile game \"Ball sort puzzle\" on Python."
+description = "Solver for mobile game \"Ball sort puzzle\" in Python."
 authors = ["Vyazovetskov Vladimir <erhosen@gmail.com>"]
 
 [tool.poetry.dependencies]
@@ -15,7 +15,6 @@ pydantic = {extras = ["dotenv"], version = "^1.7.2"}
 pre-commit = "^2.8.2"
 pytest = "^6.1.2"
 pytest-cov = "^2.10.1"
-matplotlib = "^3.3.3"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
