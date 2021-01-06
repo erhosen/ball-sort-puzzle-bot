@@ -86,8 +86,15 @@ def test_image_android(filename):
     assert result is True
 
 
-def test_lvl_6071_no_solution():
-    file_path = FILE_PATH.parent / 'img/file_52.jpg'
+@pytest.mark.parametrize(
+    'filename',
+    [
+        'img/file_52.jpg',
+        'img/file_59.jpg',
+    ],
+)
+def test_no_solution(filename):
+    file_path = FILE_PATH.parent / filename
     with open(file_path, 'rb') as f:
         file_bytes = np.asarray(bytearray(f.read()), dtype=np.uint8)
         image_parser = ImageParser(file_bytes, debug=False)
