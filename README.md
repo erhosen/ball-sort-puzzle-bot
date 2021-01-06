@@ -1,6 +1,6 @@
 # Ball Sort Puzzle
 
-<p align="center">
+<p align="center" height="480px">
    <img src="img/logo_big.jpg" />
    &nbsp;&nbsp;&nbsp;&nbsp;
    <img src="img/demo.gif" />
@@ -20,7 +20,7 @@ You can find a profound description about how it works [here](https://habr.com/r
 **How to Contribute**
 ---
 
-1. Clone repo and create a new branch:
+1. Clone the repo and create a new branch:
     + `$ git checkout https://github.com/ErhoSen/ball-sort-puzzle -b name_for_new_branch`.
 
 1. Install all dependencies with [`Poetry`](https://python-poetry.org/)
@@ -35,7 +35,7 @@ You can find a profound description about how it works [here](https://habr.com/r
     + `$ make format`
     + or you can install [`pre-commit`](https://pre-commit.com/), that will do it for you
 
-3. Submit Pull Request with comprehensive description of changes
+1. Submit Pull Request with comprehensive description of changes
 
 **Links**
 ---
