@@ -1,4 +1,4 @@
-# Ball Sort Puzzle
+# Ball Sort Puzzle Bot
 
 <p align="center">
    <img src="img/logo_bsp_small.png" height="480" />
@@ -21,7 +21,7 @@ You can find a profound description about how it works [here](https://habr.com/r
 ---
 
 1. Clone the repo and create a new branch:
-    + `$ git checkout https://github.com/ErhoSen/ball-sort-puzzle -b name_for_new_branch`.
+    + `$ git checkout -b name_for_new_branch`.
 
 1. Install all dependencies with [`Poetry`](https://python-poetry.org/)
     + `$ poetry install`

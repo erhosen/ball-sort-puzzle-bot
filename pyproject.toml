@@ -1,7 +1,7 @@
 [tool.poetry]
-name = "ball-sort-puzzle"
+name = "ball-sort-puzzle-bot"
 version = "0.1.0"
-description = "Solver for mobile game \"Ball sort puzzle\" in Python."
+description = "Telegram bot, that solves Ball Sort Puzzle mobile game."
 authors = ["Vyazovetskov Vladimir <erhosen@gmail.com>"]
 
 [tool.poetry.dependencies]
