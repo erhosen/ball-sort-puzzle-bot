@@ -6,7 +6,7 @@ authors = ["Vyazovetskov Vladimir <erhosen@gmail.com>"]
 
 [tool.poetry.dependencies]
 python = "^3.8"
-numpy = "^1.19.4"
+numpy = "^1.23.0"
 opencv-python-headless = "^4.4.0"
 requests = "^2.25.0"
 pydantic = {extras = ["dotenv"], version = "^1.7.2"}
