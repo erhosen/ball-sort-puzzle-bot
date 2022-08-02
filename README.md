@@ -36,11 +36,3 @@ You can find a profound description about how it works [here](https://habr.com/r
     + or you can install [`pre-commit`](https://pre-commit.com/), that will do it for you
 
 1. Submit Pull Request with comprehensive description of changes
-
-**Links**
----
-
-* Join [Ball Sort Puzzle](https://t.me/joinchat/ESxZzRnHXdPzr5XVAV6UfQ) Telegram community [International]
-
-
-asdf
