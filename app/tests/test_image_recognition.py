@@ -119,6 +119,20 @@ def test_nine_flasks():
     assert result is True
 
 
+@pytest.mark.xfail
+def test_special_level():
+    file_path = FILE_PATH.parent / "img/special_level.jpg"
+    with open(file_path, 'rb') as f:
+        file_bytes = np.asarray(bytearray(f.read()), dtype=np.uint8)
+        image_parser = ImageParser(file_bytes)
+        colors = image_parser.to_colors()
+
+    assert colors
+    puzzle = BallSortPuzzle(colors)
+    result = puzzle.solve()
+    assert result is True
+
+
 def test_image_and_solve():
     file_path = FILE_PATH.parent / "img/lvl_725.jpg"
     with open(file_path, 'rb') as f:
