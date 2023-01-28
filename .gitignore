@@ -6,3 +6,4 @@ __test_results__
 .DS_Store
 .coverage
 app/.env
+.venv

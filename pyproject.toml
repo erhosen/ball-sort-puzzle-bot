@@ -5,7 +5,7 @@ description = "Telegram bot, that solves Ball Sort Puzzle mobile game."
 authors = ["Vyazovetskov Vladimir <erhosen@gmail.com>"]
 
 [tool.poetry.dependencies]
-python = "^3.8"
+python = "^3.11"
 numpy = "^1.23.0"
 opencv-python-headless = "^4.4.0"
 requests = "^2.25.0"

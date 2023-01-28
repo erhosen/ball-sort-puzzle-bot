@@ -7,10 +7,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v1
-      - name: Set up Python 3.8
+      - name: Set up Python 3.11
         uses: actions/setup-python@v1
         with:
-          python-version: 3.8
+          python-version: 3.11
       - name: Linting
         run: |
           pip install poetry pre-commit
@@ -21,10 +21,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@master
-      - name: Set up Python 3.8
+      - name: Set up Python 3.11
         uses: actions/setup-python@v1
         with:
-          python-version: 3.8
+          python-version: 3.11
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
@@ -44,7 +44,7 @@ jobs:
         with:
           token: ${{ secrets.YC_TOKEN }}
           function_id: ${{ secrets.YC_FUNCTION_ID }}
-          runtime: 'python38'
+          runtime: 'python311'
           memory: '256'
           execution_timeout: "120"
           entrypoint: 'main.handler'

@@ -17,7 +17,7 @@ check_requirements: generate_requirements
 	@git diff --quiet app/requirements.txt
 
 deploy: clean generate_requirements
-	@yc serverless function version create --function-name=ball-sort-puzzle-bot --runtime python38 --entrypoint main.handler --memory 256m --execution-timeout 120s --source-path app
+	@yc serverless function version create --function-name=ball-sort-puzzle-bot --runtime python311 --entrypoint main.handler --memory 256m --execution-timeout 120s --source-path app
 
 run:
 	@yc serverless function invoke ball-sort-puzzle-bot
