@@ -1,3 +1,5 @@
+set dotenv-load
+
 clean:
 	rm -rf .coverage coverage.xml htmlcov report.xml
 	@find . -type d -name '__pycache__' -exec rm -rf {} +
@@ -17,7 +19,7 @@ check_requirements: generate_requirements
 	git diff --quiet app/requirements.txt
 
 deploy: clean generate_requirements
-	yc serverless function version create --function-name=ball-sort-puzzle-bot --runtime python311 --entrypoint main.handler --memory 256m --execution-timeout 120s --source-path app
+	yc serverless function version create --function-name=ball-sort-puzzle-bot --runtime python311 --entrypoint main.handler --memory 256m --execution-timeout 120s --source-path app --environment=TELEGRAM_BOT_TOKEN=$TELEGRAM_BOT_TOKEN
 
 run:
 	yc serverless function invoke ball-sort-puzzle-bot

@@ -5,5 +5,5 @@ __pycache__/
 __test_results__
 .DS_Store
 .coverage
-app/.env
+.env
 .venv
