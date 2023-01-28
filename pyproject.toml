@@ -1,8 +1,8 @@
 [tool.poetry]
 name = "ball-sort-puzzle-bot"
-version = "0.1.0"
+version = "0.2.0"
 description = "Telegram bot, that solves Ball Sort Puzzle mobile game."
-authors = ["Vyazovetskov Vladimir <erhosen@gmail.com>"]
+authors = ["Viazovetskov Vladimir <erhosen@gmail.com>"]
 
 [tool.poetry.dependencies]
 python = "^3.11"
