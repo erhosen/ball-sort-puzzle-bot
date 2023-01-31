@@ -97,7 +97,6 @@ class ImageParser:
             color = self.get_dominant_color(circle)
             ordered_colors.append(color)
 
-        print("###### NUM OF CIRCLES", len(ordered_colors))
         if len(ordered_colors) == 60:
             self.consistency_check(ordered_colors, flask_capacity=5)
             return self.fit_colors_to_flasks(ordered_colors, flasks_line1=7, flasks_line2=5, flask_capacity=5)
