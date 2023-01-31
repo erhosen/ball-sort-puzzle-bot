@@ -15,14 +15,17 @@ class ImageParser:
     def __init__(self, file_bytes: np.ndarray, debug=False):
         self.image_orig = cv2.imdecode(file_bytes, cv2.IMREAD_COLOR)
         self.image_cropped = self.get_cropped_image(self.image_orig)
+        if debug:
+            cv2.imwrite('img/cropped.jpg', self.image_cropped)
 
         self.debug = debug
 
     @staticmethod
     def get_cropped_image(image):
         height, width, _ = image.shape
-        quarter = int(height / 4)
-        cropped_img = image[quarter : height - quarter]
+        quarter = int(width / 4)
+        one_sixth = int(height / 5)
+        cropped_img = image[one_sixth : height - quarter]
         return cropped_img
 
     @staticmethod
@@ -42,14 +45,16 @@ class ImageParser:
         return get_closest_color(dominant)
 
     @staticmethod
-    def consistency_check(ordered_colors):
+    def consistency_check(ordered_colors, flask_capacity: int):
         counter = Counter(ordered_colors)
-        if not all(count == 4 for count in counter.values()):
+        if not all(count == flask_capacity for count in counter.values()):
             raise ImageParserError(f"Inconsistent number of colors: {counter}")
 
     @staticmethod
-    def fit_colors_to_flasks(ordered_colors, flasks_line1: int, flasks_line2: int) -> List[List[Color]]:
-        balls_line1 = flasks_line1 * 4
+    def fit_colors_to_flasks(
+        ordered_colors, flasks_line1: int, flasks_line2: int, flask_capacity: int
+    ) -> List[List[Color]]:
+        balls_line1 = flasks_line1 * flask_capacity
         line1: List[List[Color]] = [[] for _ in range(flasks_line1)]
         for i, color in enumerate(reversed(ordered_colors[:balls_line1])):
             line1[i % flasks_line1].append(color)
@@ -69,6 +74,13 @@ class ImageParser:
             raise ImageParserError("No circles :shrug:")
 
         circles = np.round(circles[0, :]).astype("int16")
+        # highlight found circles on image
+        if self.debug:
+            cropped_copy = self.image_cropped.copy()
+            for (x, y, r) in circles:
+                cv2.circle(cropped_copy, (x, y), r, (0, 255, 0), 4)
+            cv2.imwrite("img/circles.jpg", cropped_copy)
+
         ind = np.lexsort((circles[:, 0], circles[:, 1]))
         circles = circles[ind]
         circles = self.normalize_circles(circles)
@@ -82,16 +94,18 @@ class ImageParser:
         for i, (x, y, r) in enumerate(normalized_circles):
             small_r = r - 3
             circle = self.image_cropped[y - small_r : y + small_r, x - small_r : x + small_r]
-            if self.debug:
-                cv2.imwrite(f"img/img_{i}.jpg", circle)
             color = self.get_dominant_color(circle)
             ordered_colors.append(color)
 
-        self.consistency_check(ordered_colors)
-
+        print("###### NUM OF CIRCLES", len(ordered_colors))
+        if len(ordered_colors) == 60:
+            self.consistency_check(ordered_colors, flask_capacity=5)
+            return self.fit_colors_to_flasks(ordered_colors, flasks_line1=7, flasks_line2=5, flask_capacity=5)
         if len(ordered_colors) == 48:
-            return self.fit_colors_to_flasks(ordered_colors, flasks_line1=7, flasks_line2=5)
+            self.consistency_check(ordered_colors, flask_capacity=4)
+            return self.fit_colors_to_flasks(ordered_colors, flasks_line1=7, flasks_line2=5, flask_capacity=4)
         elif len(ordered_colors) == 36:
-            return self.fit_colors_to_flasks(ordered_colors, flasks_line1=6, flasks_line2=3)
+            self.consistency_check(ordered_colors, flask_capacity=4)
+            return self.fit_colors_to_flasks(ordered_colors, flasks_line1=6, flasks_line2=3, flask_capacity=4)
         else:
             raise ImageParserError("NotImplementedError")
