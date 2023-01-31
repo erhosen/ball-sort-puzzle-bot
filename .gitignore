@@ -7,3 +7,5 @@ __test_results__
 .coverage
 .env
 .venv
+app/tests/img/cropped.jpg
+app/tests/img/circles.jpg

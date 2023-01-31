@@ -57,7 +57,7 @@ class Flask:
     @property
     def state(self) -> str:
         state = ''.join(ball.color.symbol for ball in self.balls)
-        return f"{state:#<4}"
+        return f"{state:#<{self.max_size}}"
 
     def __iter__(self):
         return iter(self.balls)
